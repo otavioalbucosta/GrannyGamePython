@@ -74,7 +74,56 @@ def start_gaming(socket1,socket2):
                 socket1.send(board)
                 res = pickle.loads(socket1.recv(MAXBYTES))
                 board[res[0]][res[1]] = "X"
-                check_game_win_condition(board)
+                ans = check_game_win_condition(board)
+                if ans == "N":
+                    socket2.send(board)
+                    res = pickle.loads(socket2.recv(MAXBYTES))
+                    board[res[0]][res[1]] = "O"
+                    ans = check_game_win_condition(board)
+                    if ans == "N":
+                        continue
+                    elif ans == "D":
+                        socket2.send(pickle.dumps("end"))
+                        socket2.send(pickle.dumps("EMPATE!"))
+                        socket1.send(pickle.dumps("end"))
+                        socket1.send(pickle.dumps("EMPATE!"))
+                        break
+                    elif ans == "X":
+                        socket2.send(pickle.dumps("end"))
+                        socket2.send(pickle.dumps("VOCÊ PERDEU!"))
+                        socket1.send(pickle.dumps("end"))
+                        socket1.send(pickle.dumps("VOCÊ GANHOU!"))
+                        break
+                    elif ans == "O":
+                        socket1.send(pickle.dumps("end"))
+                        socket1.send(pickle.dumps("VOCÊ PERDEU!"))
+                        socket2.send(pickle.dumps("end"))
+                        socket2.send(pickle.dumps("VOCÊ GANHOU!"))
+                        break
+                elif ans == "D":
+                        socket2.send(pickle.dumps("end"))
+                        socket2.send(pickle.dumps("EMPATE!"))
+                        socket1.send(pickle.dumps("end"))
+                        socket1.send(pickle.dumps("EMPATE!"))
+                        break
+                elif ans == "X":
+                    socket2.send(pickle.dumps("end"))
+                    socket2.send(pickle.dumps("VOCÊ PERDEU!"))
+                    socket1.send(pickle.dumps("end"))
+                    socket1.send(pickle.dumps("VOCÊ GANHOU!"))
+                    break
+                elif ans == "O":
+                    socket1.send(pickle.dumps("end"))
+                    socket1.send(pickle.dumps("VOCÊ PERDEU!"))
+                    socket2.send(pickle.dumps("end"))
+                    socket2.send(pickle.dumps("VOCÊ GANHOU!"))
+                    break
+                
+                    
+
+
+                    
+
                 
 
 serversocket1 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)

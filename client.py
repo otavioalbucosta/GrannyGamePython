@@ -29,7 +29,9 @@ if res == "você irá iniciar":
     while True:
         res = pickle.loads(s.recv(MAXBYTES))
         if res == "end":
-            break;
+            res = pickle.loads(s.recv(MAXBYTES))
+            print(res)
+            break
         else:
             print(show_board(res))
             value = input("Digite a Letra (maiúscula) e o número")
